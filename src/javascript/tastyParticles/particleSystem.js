@@ -6,6 +6,15 @@ class ParticleSystem {
         this.maxParticles = maxParticles;
         this.particles = [];
         this.fields = [];
+        this.swaper = document.createElement("canvas");
+        this.ctx = this.swaper.getContext( "2d" );
+    }
+
+    resize( width, height ) {
+        this.width = width;
+        this.height = height;
+        this.swaper.width = width;
+        this.swaper.height = height;
     }
 
     start() {
@@ -121,9 +130,9 @@ class ParticleSystem {
         this.color.r -= 0.3;
         this.color.g -= 0.3;
         this.color.b -= 0.3;
-        //this.color.a = Math.random() * 0.3 + 0.3;
+        // this.color.a = Math.random() * 0.3 + 0.3;
         if ( this.particles.length < this.maxParticles ) {
-            for ( i = 0; i < 10; i++ ) {
+            for ( i = 0; i < 100; i++ ) {
                 var particle = new Particle();
 
                 // particle.position = new Vector3D(
@@ -139,9 +148,9 @@ class ParticleSystem {
                     );
 
                 particle.velocity = new Vector3D(
-                        this.cos + Math.random() >> 2 - 0.25,
-                        this.sin + Math.random() >> 2 - 0.25,
-                        Math.random() * 0.2 - 0.1
+                        this.cos + Math.random() << 2 - 2,
+                        this.sin + Math.random() << 2 - 2,
+                        Math.random() * 1 - 0.5
                     );
 
                 particle.color = this.color;
@@ -160,15 +169,20 @@ class ParticleSystem {
     }
 
     draw( ctx, acc ) {
-        ctx.fillStyle = "rgba(0,0,0,0.5)";
-        ctx.fillRect( 0, 0, this.width, this.height );
+        this.ctx.clearRect( 0, 0, this.width, this.height );
         var i;
 
+        // this.ctx.beginPath();
         for ( i = 0; i < this.particles.length; i++ ) {
             var particle = this.particles[ i ];
 
-            particle.draw( ctx );
+            particle.draw( this.ctx );
         }
+        // this.ctx.fill();
+
+        ctx.fillStyle = "black";
+        ctx.fillRect( 0, 0, this.width, this.height );
+        ctx.drawImage( this.swaper, 0, 0 );
 
         // ctx.fillStyle = "rgba(255,255,255,0.1)";
 
