@@ -1,8 +1,1 @@
-class Field {
-
-    constructor( point = new Vector3D(), mass = 0 ) {
-        this.position   = point;
-        this.mass       = mass;
-    }
-
-}
+"use strict";function _classCallCheck(s,n){if(!(s instanceof n))throw new TypeError("Cannot call a class as a function")}var Field=function s(){var n=arguments.length<=0||void 0===arguments[0]?new Vector3D:arguments[0],t=arguments.length<=1||void 0===arguments[1]?0:arguments[1];_classCallCheck(this,s),this.position=n,this.mass=t};
