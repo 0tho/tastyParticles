@@ -5,7 +5,7 @@ module.exports = function( gulp, plugins, config ) {
         exec = require("child_process").exec;
 
 
-    gulp.task( "default", [ "build" ], function() {
+    gulp.task( "default", [ "stylus" ], function() {
 
     });
 

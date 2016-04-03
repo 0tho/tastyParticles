@@ -10,7 +10,7 @@ module.exports = function( gulp, plugins, config ) {
         exec = require("child_process").exec;
 
 
-    gulp.task( "build", [ "jscs", "babel", "stylus" ], function() {
+    gulp.task( "build", [ "jscs", "babel" ], function() {
         gulp.src([ "src/index.html" ])
             .pipe( replace( /{{version}}/g, config.pkg.version ) )
             .pipe( gulp.dest("dist/") );
@@ -38,13 +38,13 @@ module.exports = function( gulp, plugins, config ) {
         cb();
     });
 
-    gulp.task( "stylus", [], function() {
-        return gulp.src("./css/**/*.styl")
+    gulp.task( "stylus", [ "build" ], function() {
+        return gulp.src("src/css/**/*.styl")
             .pipe( stylus({
               compress: true,
-              linenos: true
+              lineos: true
             }) )
-            .pipe( gulp.dest("./css/build") );
+            .pipe( gulp.dest("dist/css") );
     });
 
 };
