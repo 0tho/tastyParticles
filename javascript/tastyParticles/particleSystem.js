@@ -1,1 +1,204 @@
-"use strict";function _classCallCheck(t,i){if(!(t instanceof i))throw new TypeError("Cannot call a class as a function")}var _createClass=function(){function t(t,i){for(var e=0;e<i.length;e++){var s=i[e];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(t,s.key,s)}}return function(i,e,s){return e&&t(i.prototype,e),s&&t(i,s),i}}(),ParticleSystem=function(){function t(){var i=arguments.length<=0||void 0===arguments[0]?600:arguments[0],e=arguments.length<=1||void 0===arguments[1]?600:arguments[1],s=arguments.length<=2||void 0===arguments[2]?1e3:arguments[2];_classCallCheck(this,t),this.width=i,this.height=e,this.maxParticles=s,this.particles=[],this.fields=[]}return _createClass(t,[{key:"start",value:function(){console.log("Start");var t;for(this.color=Color.random(),this.color.r*=1.5,this.color.g*=1.5,this.color.b*=1.5,this.color.a=.3,this.ang=Math.random()*(2*Math.PI),this.speed=1*Math.random()+2,this.cos=Math.cos(this.ang)*this.speed,this.sin=Math.sin(this.ang)*this.speed,t=0;10>t;t++){var i=new Field(void 0,1e4*Math.random()-1e3);i.position=new Vector3D(Math.random()*this.width,Math.random()*this.height,2e3*Math.random()-1e3),this.fields.push(i)}}},{key:"update",value:function(){var t;if(this.color=this.color.copy,this.color.r-=.3,this.color.g-=.3,this.color.b-=.3,this.particles.length<this.maxParticles)for(t=0;10>t;t++){var i=new Particle;i.position=new Vector3D(this.width>>1,this.height>>1,0),i.velocity=new Vector3D(this.cos+Math.random()>>1.75,this.sin+Math.random()>>1.75,.2*Math.random()-.1),i.color=this.color,this.particles.push(i)}for(t=0;t<this.particles.length;t++){var i=this.particles[t];i.submitToFields(this.fields),i.update()}}},{key:"draw",value:function(t,i){t.fillStyle="rgba(0,0,0,0.5)",t.fillRect(0,0,this.width,this.height);var e;for(e=0;e<this.particles.length;e++){var s=this.particles[e];s.draw(t)}}}]),t}();
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ParticleSystem = function () {
+    function ParticleSystem() {
+        var width = arguments.length <= 0 || arguments[0] === undefined ? 600 : arguments[0];
+        var height = arguments.length <= 1 || arguments[1] === undefined ? 600 : arguments[1];
+        var maxParticles = arguments.length <= 2 || arguments[2] === undefined ? 1000 : arguments[2];
+
+        _classCallCheck(this, ParticleSystem);
+
+        this.width = width;
+        this.height = height;
+        this.maxParticles = maxParticles;
+        this.particles = [];
+        this.fields = [];
+        this.swaper = document.createElement("canvas");
+        this.ctx = this.swaper.getContext("2d");
+    }
+
+    _createClass(ParticleSystem, [{
+        key: "resize",
+        value: function resize(width, height) {
+            this.width = width;
+            this.height = height;
+            this.swaper.width = width;
+            this.swaper.height = height;
+        }
+    }, {
+        key: "start",
+        value: function start() {
+            console.log("Start");
+            var i;
+            this.color = Color.random();
+            this.color.r *= 1.5;
+            this.color.g *= 1.5;
+            this.color.b *= 1.5;
+
+            this.color.a = 0.3;
+
+            this.ang = Math.random() * (Math.PI * 2);
+            this.speed = Math.random() * 1 + 2;
+            this.cos = Math.cos(this.ang) * this.speed;
+            this.sin = Math.sin(this.ang) * this.speed;
+
+            // for ( i = 0; i < this.maxParticles; i++ ) {
+            //     var particle = new Particle();
+
+            //     particle.position = new Vector3D(
+            //             Math.random() * this.width,
+            //             Math.random() * this.height,
+            //             Math.random() * 100 - 50
+            //         );
+
+            //     // particle.position = new Vector3D(
+            //     //         600,
+            //     //         600,
+            //     //         Math.random() * 100 - 50
+            //     //     );
+
+            //     particle.velocity = new Vector3D(
+            //             Math.random() * 2 - 1,
+            //             Math.random() * 2 - 1,
+            //             Math.random() * 2 - 1
+            //         );
+
+            //     particle.color = Color.random();
+
+            //     this.particles.push( particle );
+            // }
+
+            // for ( i = 0; i < this.maxParticles; i++ ) {
+            //     var particle = new Particle();
+
+            //     particle.position = new Vector3D(
+            //             10 * i,
+            //             100,
+            //             -500 + 10 * i
+            //         );
+
+            //     // particle.position = new Vector3D(
+            //     //         600,
+            //     //         600,
+            //     //         Math.random() * 100 - 50
+            //     //     );
+
+            //     // particle.velocity = new Vector3D(
+            //     //         Math.random() * 2 - 1,
+            //     //         Math.random() * 2 - 1,
+            //     //         Math.random() * 2 - 1
+            //     //     );
+
+            //     particle.color = Color.random();
+
+            //     this.particles.push( particle );
+            // }
+
+            // this.fields = [
+
+            //     new Field(
+            //             new Vector3D( this.width/2 - 300, this.height/2 - 200, -500 ),
+            //             20000
+            //         ),
+            //     new Field(
+            //             new Vector3D( this.width/2 + 300, this.height/2 + 200, 500 ),
+            //             20000
+            //         )
+
+            // ];
+
+            for (i = 0; i < 10; i++) {
+                var field = new Field(undefined, Math.random() * 10000 - 1000);
+
+                field.position = new Vector3D(Math.random() * this.width, Math.random() * this.height, Math.random() * 2000 - 1000);
+
+                // field.position = new Vector3D(
+                //         600,
+                //         400,
+                //         Math.random() * 100 - 50
+                //     );
+
+                this.fields.push(field);
+            }
+        }
+    }, {
+        key: "update",
+        value: function update() {
+            var i;
+            this.color = this.color.copy;
+            this.color.r -= 0.3;
+            this.color.g -= 0.3;
+            this.color.b -= 0.3;
+            // this.color.a = Math.random() * 0.3 + 0.3;
+            if (this.particles.length < this.maxParticles) {
+                for (i = 0; i < 100; i++) {
+                    var particle = new Particle();
+
+                    // particle.position = new Vector3D(
+                    //         Math.random() * this.width,
+                    //         Math.random() * this.height,
+                    //         Math.random() * 100 - 50
+                    //     );
+
+                    particle.position = new Vector3D(this.width >> 1, this.height >> 1, 0);
+
+                    particle.velocity = new Vector3D(this.cos + Math.random() << 2 - 2, this.sin + Math.random() << 2 - 2, Math.random() * 1 - 0.5);
+
+                    particle.color = this.color;
+                    // particle.color = Color.random();
+
+                    this.particles.push(particle);
+                }
+            }
+
+            for (i = 0; i < this.particles.length; i++) {
+                var particle = this.particles[i];
+
+                particle.submitToFields(this.fields);
+                particle.update();
+            }
+        }
+    }, {
+        key: "draw",
+        value: function draw(ctx, acc) {
+            this.ctx.clearRect(0, 0, this.width, this.height);
+            var i;
+
+            // this.ctx.beginPath();
+            for (i = 0; i < this.particles.length; i++) {
+                var particle = this.particles[i];
+
+                particle.draw(this.ctx);
+            }
+            // this.ctx.fill();
+
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, this.width, this.height);
+            ctx.drawImage(this.swaper, 0, 0);
+
+            // ctx.fillStyle = "rgba(255,255,255,0.1)";
+
+            // for ( i = 0; i < this.fields.length; i++ ) {
+            //     var field = this.fields[ i ];
+            //     var size = Math.min( 10, 10 * (( field.position.z + 1000 )) / 2000 );
+            //     var color = field.mass > 0 ? "green" : "red";
+            //     ctx.strokeStyle = color;
+            //     ctx.lineWidth = 1;
+            //     // ctx.setLineDash([ 2, 2 ]);
+            //     ctx.beginPath();
+
+            //     // ctx.rect( field.position.x - 2, field.position.y - 2, 4, 4 );
+            //     ctx.arc( field.position.x - 2, field.position.y - 2, size, 0, Math.PI * 2 );
+
+            //     ctx.stroke();
+            //     // ctx.fill();
+            // }
+        }
+    }]);
+
+    return ParticleSystem;
+}();
