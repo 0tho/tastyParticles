@@ -20,10 +20,10 @@ class Color {
 
     static random() {
         return new Color(
-                Math.floor( Math.random() *255 ),
-                Math.floor( Math.random() *255 ),
-                Math.floor( Math.random() *255 ),
+                Math.floor( Math.random() * 255 ),
+                Math.floor( Math.random() * 255 ),
+                Math.floor( Math.random() * 255 ),
                 1
-            )
+            );
     }
 }
