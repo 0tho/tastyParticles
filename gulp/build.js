@@ -78,7 +78,9 @@ module.exports = function( gulp, plugins, config ) {
         browserSync.init({
             server: {
                 baseDir: "dist"
-            }
+            },
+            port: 8080,
+            open: false
         });
     });
 
