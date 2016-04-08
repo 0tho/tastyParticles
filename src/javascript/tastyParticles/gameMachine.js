@@ -47,6 +47,17 @@ function GameMachine ( game, cfg, selector ) {
 
     this.step = step.bind(this);
 
+    this.togglePause = function() {
+        if( this.state == STATES.PLAYING ) {
+            this.state = STATES.PAUSED;
+        } else {
+            this.last = new Date().getTime();
+            this.accumulator = 0;
+            this.state = STATES.PLAYING;
+            this.step();
+        }
+    }
+
 }
 
 GameMachine.prototype.start = function () {

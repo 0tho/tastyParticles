@@ -18,9 +18,21 @@ body
     width: 10%;
     height: 3%;
 
+.button:not(:first-child)
+    margin-left: 3%;
+
 .button
-    width: 30%;
+    position: relative;
+    cursor: pointer;
+    float: left;
+    width: 22%;
     height: 100%;
-    position: absolute;
     background-color: #fff;
     border-radius: 100%;
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}
