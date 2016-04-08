@@ -20,10 +20,15 @@ class ParticleSystem {
     start() {
         console.log( "Start" );
         var i;
+        this.particles = [];
+        this.fields = [];
+
         this.color = Color.random();
         this.color.r *= 1.5;
         this.color.g *= 1.5;
         this.color.b *= 1.5;
+
+        this.baseColor = this.color.copy;
 
         this.color.a = 0.3;
 
@@ -121,7 +126,11 @@ class ParticleSystem {
 
             this.fields.push( field );
         }
+    }
 
+    restart() {
+        this.color = this.baseColor.copy;
+        this.particles = [];
     }
 
     update() {
