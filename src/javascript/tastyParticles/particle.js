@@ -18,11 +18,11 @@ class Particle {
     draw( ctx ) {
         var size = Math.min( 3, 3 * (( this.position.z + 1024 )) >> 11 );
 
-        ctx.fillStyle = this.color.rgba;
         if ( this.position.z > -1024  ) {
             var x = ~~( 0.5 + this.position.x ),
                 y = ~~( 0.5 + this.position.y );
             // ctx.moveTo( x, y );
+            ctx.fillStyle = this.color.rgba;
             ctx.beginPath();
             ctx.arc( x, y, size, 0, 2 * 3.14 );
             ctx.fill();
