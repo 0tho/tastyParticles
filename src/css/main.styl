@@ -18,12 +18,21 @@ body
     width: 10%;
     height: 3%;
 
-.button:not(:first-child) {
-    left: 5%;
-}
+.button:not(:first-child)
+    margin-left: 3%;
+
 .button
     position: relative;
-    width: 30%;
+    cursor: pointer;
+    float: left;
+    width: 22%;
     height: 100%;
     background-color: #fff;
     border-radius: 100%;
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+}

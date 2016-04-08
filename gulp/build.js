@@ -25,13 +25,19 @@ module.exports = function( gulp, plugins, config ) {
         );
     });
 
+    gulp.task("js", function( callback ) {
+        runSequence(
+            "jscs",
+            "babel",
+            "uglify"
+        );
+    });
 
-    gulp.task( "rename", [], function( cb ) {
-        gulp.src([ "src/index.html" ])
+
+    gulp.task( "rename", [], function( ) {
+        return gulp.src([ "src/index.html" ])
             .pipe( replace( /{{version}}/g, config.pkg.version ) )
             .pipe( gulp.dest("dist/") );
-
-        cb();
     });
 
     gulp.task( "clean:dist", [], function() {
@@ -87,8 +93,8 @@ module.exports = function( gulp, plugins, config ) {
     gulp.task("watch", [ "browserSync", "stylus" ], function() {
         gulp.watch( "src/css/**/*.styl", [ "stylus" ]);
         // Reloads the browser whenever HTML or JS files change
-        gulp.watch( "src/*.html", browserSync.reload );
-        gulp.watch( "src/js/**/*.js", browserSync.reload );
+        gulp.watch( "src/*.html", [ "rename", browserSync.reload ]);
+        gulp.watch( "src/javascript/**/*.js", [ "js", browserSync.reload ]);
     });
 
 
