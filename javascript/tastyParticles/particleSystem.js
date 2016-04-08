@@ -34,10 +34,15 @@ var ParticleSystem = function () {
         value: function start() {
             console.log("Start");
             var i;
+            this.particles = [];
+            this.fields = [];
+
             this.color = Color.random();
             this.color.r *= 1.5;
             this.color.g *= 1.5;
             this.color.b *= 1.5;
+
+            this.baseColor = this.color.copy;
 
             this.color.a = 0.3;
 
@@ -124,6 +129,12 @@ var ParticleSystem = function () {
 
                 this.fields.push(field);
             }
+        }
+    }, {
+        key: "restart",
+        value: function restart() {
+            this.color = this.baseColor.copy;
+            this.particles = [];
         }
     }, {
         key: "update",
